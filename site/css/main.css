@@ -32,9 +32,11 @@ nav {
 }
 
 .interactive_game {
-	width: 100px;
-	height: 100px;
-	background-color: red;
+	background-color: lightgreen;
+}
+
+canvas {
+	background-color: white;
 }
 
 footer {
