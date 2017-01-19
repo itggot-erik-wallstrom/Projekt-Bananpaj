@@ -3,29 +3,33 @@ var ctx = c.getContext("2d");
 
 var player_x = 10;
 var player_y = 450;
-var player_width = 20;
-var player_height = 20;
+var player_width = 50;
+var player_height = 50;
+var player_speed = 5;
 var player_image = new Image();
-player_image.src = "./img/banana1.jpg";
+player_image.src = "./img/player.png";
 
+var cpu_x = 5;
+var cpu_y = 5;
+var cpu_width = 10;
+var cpu_height = 60;
+var cpu_speed = 4;
 var cpu_image = new Image();
-cpu_image.src = "./img/katana.jpg";
+cpu_image.src = "./img/cpu.png";
 
 var w_down = false;
 var a_down = false;
 var s_down = false;
 var d_down = false;
 
-var speed = 5;
-
-var cpu_x = 5;
-var cpu_y = 5;
-
 var d = new Date();
 var n = d.getMilliseconds();
 
 var CANVAS_WIDTH = 200;
 var CANVAS_HEIGHT = 500;
+
+var hp = 3
+var score = 0
 
 function clear() {
 	ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -57,16 +61,16 @@ function detectCollision(x, x1, y, y1, height, height1, width, width1){
 
 function update() {
 	if(w_down) {
-		player_y -= speed;
+		player_y -= player_speed;
 	}
 	if(a_down) {
-		player_x -= speed;
+		player_x -= player_speed;
 	}
 	if(s_down) {
-		player_y += speed;
+		player_y += player_speed;
 	}
 	if(d_down) {
-		player_x += speed;
+		player_x += player_speed;
 	}
 
 
@@ -87,12 +91,29 @@ function update() {
 	clear();
 
 
-    cpu_y += 5;
+    cpu_y += cpu_speed;
 
-    detectCollision(cpu_x, player_x, cpu_y, player_y, cpu_width, player_width, cpu_height, player_height);
+	if(cpu_y > CANVAS_HEIGHT) { //Move cpu to top at random position if it goes off screen
+		cpu_y = 0 - cpu_height;
+		cpu_x = Math.random() * (CANVAS_WIDTH - cpu_width);
+		score += 1;
+		cpu_speed += 0.5;
+	}
 
-	ctx.drawImage(cpu_image, cpu_x, cpu_y, 20, 20);
+	if(detectCollision(cpu_x, player_x, cpu_y, player_y, cpu_height, player_height, cpu_width, player_width)) {
+		cpu_y = 0 - cpu_height;
+		cpu_x = Math.random() * (CANVAS_WIDTH - cpu_width);
+
+		score = 0;
+		cpu_speed = 4;
+	}
+
 	ctx.drawImage(player_image, player_x, player_y, player_width, player_height	);
+	ctx.drawImage(cpu_image, cpu_x, cpu_y, cpu_width, cpu_height);
+	ctx.font = "30px Arial";
+	ctx.fillStyle = "blue";
+	ctx.textAlign = "center";
+	ctx.fillText(score, CANVAS_WIDTH - 20, 40);
 }
 
 function on_key_down(event) {
