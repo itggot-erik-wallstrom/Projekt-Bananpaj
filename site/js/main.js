@@ -89,7 +89,7 @@ function update() {
 
     cpu_y += 5;
 
-    detectCollision(cpu_x, player_x, cpu_y, player_y, cpu_width, player_width, cpu_height, player_height);
+    //detectCollision(cpu_x, player_x, cpu_y, player_y, cpu_width, player_width, cpu_height, player_height);
 
 	ctx.drawImage(cpu_image, cpu_x, cpu_y, 20, 20);
 	ctx.drawImage(player_image, player_x, player_y, player_width, player_height	);
