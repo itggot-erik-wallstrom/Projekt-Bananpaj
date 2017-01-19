@@ -9,8 +9,8 @@ var ctx = c.getContext("2d");
 
 var player_x = 10;
 var player_y = 10;
-var player_width = 20;
-var player_height = 20;
+var player_width = 60;
+var player_height = 60;
 var player_image = new Image();
 player_image.src = "./img/banana1.jpg"
 
@@ -21,8 +21,8 @@ var d_down = false;
 
 var speed = 5;
 
-var CANVAS_WIDTH = 200;
-var CANVAS_HEIGHT = 100;
+var CANVAS_WIDTH = 400;
+var CANVAS_HEIGHT = 200;
 
 function clear() {
 	ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -42,7 +42,6 @@ function update() {
 		player_x += speed;
 	}
 
-	/*
 	if(player_x + player_width > CANVAS_WIDTH) {
 		player_x = CANVAS_WIDTH - player_width;
 	}
@@ -55,16 +54,13 @@ function update() {
 	if(player_y < 0) {
 		player_y = 0
 	}
-	*/
-
-	console.log(CANVAS_WIDTH);
 
 	clear();
 	/*
 	ctx.fillStyle = "#FF0000";
 	ctx.fillRect(player_x, player_y, player_width, player_height);
 	*/
-	ctx.drawImage(player_image, player_x, player_y);
+	ctx.drawImage(player_image, player_x, player_y, player_width, player_height);
 }
 
 function on_key_down(event) {
