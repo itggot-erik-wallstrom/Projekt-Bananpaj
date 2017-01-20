@@ -1,6 +1,9 @@
 var c = document.getElementById("game");
 var ctx = c.getContext("2d");
 
+var playGame = false;
+var gameStatus = "Press R to play the game."; //What pauseGame function outputs.
+
 var player_x = 10;
 var player_y = 450;
 var player_width = 50;
@@ -22,14 +25,27 @@ var a_down = false;
 var s_down = false;
 var d_down = false;
 
-var d = new Date();
-var n = d.getMilliseconds();
-
-var CANVAS_WIDTH = 200;
+var CANVAS_WIDTH = 400;
 var CANVAS_HEIGHT = 500;
 
-var hp = 3
-var score = 0
+var hp = 3;
+var score = 0;
+
+function gameLoop(){
+	if(playGame){
+		update();
+	} else {
+		pauseGame();
+	}
+}
+
+function pauseGame() {
+		console.log(playGame);
+		ctx.font = "20px Arial";
+		ctx.fillStyle = "blue";
+		ctx.textAlign = "center";
+        ctx.fillText(gameStatus, CANVAS_HEIGHT / 2, CANVAS_WIDTH - gameStatus.length);
+}
 
 function clear() {
 	ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -86,7 +102,6 @@ function update() {
 	if(player_y < 0) {
 		player_y = 0
 	}
-	console.log(CANVAS_WIDTH);
 
 	clear();
 
@@ -106,31 +121,35 @@ function update() {
 
 		score = 0;
 		cpu_speed = 4;
+		playGame = false;
+		gameStatus = "Game over, press R to play again.";
+        player_y = 450;
+        player_x = 10;
 	}
 
 	ctx.drawImage(player_image, player_x, player_y, player_width, player_height	);
 	ctx.drawImage(cpu_image, cpu_x, cpu_y, cpu_width, cpu_height);
-	ctx.font = "30px Arial";
-	ctx.fillStyle = "blue";
-	ctx.textAlign = "center";
 	ctx.fillText(score, CANVAS_WIDTH - 20, 40);
 }
 
 function on_key_down(event) {
 	switch(event.keyCode) {
-		case 87: // W
-			w_down = true;
+        case 87: // W
+            w_down = true;
+            break;
+        case 65: // A
+            a_down = true;
+            break;
+        case 83: // S
+            s_down = true;
+            break;
+        case 68: // D
+            d_down = true;
+            break;
+		case 82:
+			playGame = true;
 			break;
-		case 65: // A
-			a_down = true;
-			break;
-		case 83: // S
-			s_down = true;
-			break;
-		case 68: // D
-			d_down = true;
-			break;
-	}
+    }
 }
 
 function on_key_up(event) {
@@ -150,6 +169,8 @@ function on_key_up(event) {
 	}
 }
 
-setInterval(update, 1000.0 / 60);
+setInterval(gameLoop, 1000.0 / 60);
 window.addEventListener("keydown", on_key_down, true);
 window.addEventListener("keyup", on_key_up, true);
+
+
