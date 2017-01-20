@@ -44,7 +44,7 @@ function pauseGame() {
 		ctx.font = "20px Arial";
 		ctx.fillStyle = "blue";
 		ctx.textAlign = "center";
-        ctx.fillText(gameStatus, CANVAS_HEIGHT / 2, CANVAS_WIDTH - gameStatus.length);
+        ctx.fillText(gameStatus, (CANVAS_WIDTH/2), CANVAS_HEIGHT / 2);
 }
 
 function clear() {
